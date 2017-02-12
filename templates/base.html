@@ -1,71 +1,75 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <title>build-a-blog</title>
   </head>
+  <!DOCTYPE html>
 
-<style type="text/css">
-  content {
-    font-family: sans-serif;
-    width: 800px;
-    margin: 0 auto;
-    padding: 10px;
-  }
+  <html>
+    <head>
+      <title>Blog!</title>
+    </head>
 
-  .error {
-    color: red
-  }
+  <style type="text/css">
+    body {
+      font-family: sans-serif;
+      width: 800px;
+      margin: 0 auto;
+      padding: 10px;
+    }
 
-  label {
-    display: block;
-    font-size: 20px;
-  }
+    .error {
+      color: red
+    }
 
-  input[type=text] {
-    width: 400px;
-    font-size: 20px;
-    padding: 2px;
-  }
+    label {
+      display: block;
+      font-size: 20px;
+    }
 
-  textarea {
-    width: 400px;
-    height: 200px;
-    font-size: 17px;
-    font-family: monospace;
-  }
+    input[type=text] {
+      width: 400px;
+      font-size: 20px;
+      padding: 2px;
+    }
 
-  input[type=submit] {
-    font-size: 24px;
-  }
+    textarea {
+      width: 400px;
+      height: 200px;
+      font-size: 17px;
+      font-family: monospace;
+    }
 
-  hr {
-    margin: 20px auto;
-  }
+    input[type=submit] {
+      font-size: 24px;
+    }
 
-  .content  + .content {
-    margin-top: 20px;
-  }
+    hr {
+      margin: 20px auto;
+    }
 
-  .content-title {
-    font-weight: bold;
-    font-size: 20px;
-  }
+    .content + .content {
+      margin-top: 20px;
+    }
 
-  .content-body {
-    margin: 0;
-    font-size: 17px;
-  }
-</style>
+    .content-subject {
+      font-weight: bold;
+      font-size: 20px;
+    }
 
-<body>
-  <a href="/blog" class="main-title">
-    Blog!
-  </a>
+    .content-body {
+      margin: 0;
+      font-size: 17px;
+    }
+  </style>
 
-  <div id="content">
-    {% block content %}
-    {% endblock %}
-  <div>
 
-</body>
-</html>
+    <body>
+      <h1>Blogs!</h1>
+
+      {% block content %}
+      {% endblock %}
+
+    </body>
+  </html>

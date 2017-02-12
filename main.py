@@ -19,40 +19,41 @@ class Handler(webapp2.RequestHandler):
     def render(self,template,**kw):
         self.write(self.render_str(template, **kw))
 
-class Blogs(db.Model):
-    title = db.StringProperty(required = True)
+class Post(db.Model):
+    subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
-    last_modified = db.DateTimeProperty(auto_now = True)
 
 class BlogFront(Handler):
-    def render_front(self, title="", content="", error=""):
-        posts = db.GqlQuery("SELECT * FROM Blogs ORDER BY created DESC LIMIT 5")
-
-        self.render("frontpage.html", title=title, content=content, error=error, posts=posts )
+    def render_front(self, subject="", content="", error=""):
+        posts = db.GqlQuery("SELECT * FROM Post ORDER BY created DESC LIMIT 5")
+        self.render("frontpage.html", subject=subject, content=content, error=error, posts=posts )
 
     def get(self):
-        self.render_front()
+         self.render_front()
 
 class NewPost(Handler):
+    def render_new(self, subject="", content="", error=""):
+        self.render("new-post.html", subject=subject, content=content, error=error)
+
     def get(self):
-        self.render("add-post.html")
+         self.render_new()
 
     def post(self):
-        title = self.request.get("title")
+        subject = self.request.get("subject")
         content = self.request.get("content")
 
-        if title and content:
-            p = Blogs(title = title, content = content)
-            p.put()
+        if subject and content:
+            a = Post(subject = subject, content = content)
+            a.put()
+
             self.redirect("/blog")
         else:
-            error = "you need both a title and blog content!"
-            self.render_front(title, content, error)
-
+            error = "we need both a subject and some content!"
+            self.render_new(subject, content, error)
 
 app = webapp2.WSGIApplication([
-    #('/', MainPage),
+    ('/', BlogFront),
     ('/blog', BlogFront),
     ('/newpost', NewPost)
 ], debug=True)
