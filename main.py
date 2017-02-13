@@ -19,6 +19,8 @@ class Handler(webapp2.RequestHandler):
     def render(self,template,**kw):
         self.write(self.render_str(template, **kw))
 
+
+
 class Post(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
@@ -52,8 +54,31 @@ class NewPost(Handler):
             error = "we need both a subject and some content!"
             self.render_new(subject, content, error)
 
+
+class ViewPostHandler(webapp2.RequestHandler):
+    def get(self, id):
+        post = Post.get_by_id(int(id))
+        if post:
+            self.render("permalink.html", post = post)
+        else:
+            error = "No post at this id."
+            self.response.write(error)
+
+
+        # if Post.get_by_id(int(id)) == None:
+        #     error = "No post associated with id."
+        #     self.response.write(error)
+        # else:
+        #     post = Post.get_by_id(int(id))
+        #     self.render("permalink.html", post = post)
+            # self.response.write(blog_id.subject)
+            # self.response.write(blog_id.content)
+
+
 app = webapp2.WSGIApplication([
     ('/', BlogFront),
     ('/blog', BlogFront),
-    ('/newpost', NewPost)
+    ('/newpost', NewPost),
+    webapp2.Route('/blog/<id:\d+>', ViewPostHandler)
+
 ], debug=True)
