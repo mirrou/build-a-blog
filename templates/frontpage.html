@@ -4,9 +4,13 @@
 
 {% for content in posts %}
   <div class="content">
-    <div class="content-subject">{{content.subject}}</div>
-    <pre class="content-body">{{content.content}}</pre> <!--this tag says any whitespace b/t the tag is
-                                            pre-formatted and should stay that way-->
+
+    <div class="content-subject">
+      <a href='/blog/{{content.key().id()}}'>{{content.subject}}</a>
+    </div>
+
+    <div class="content-body">{{content.content}}</div>
+
   </div>
 {% endfor %}
 

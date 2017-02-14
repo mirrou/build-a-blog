@@ -19,20 +19,27 @@ class Handler(webapp2.RequestHandler):
     def render(self,template,**kw):
         self.write(self.render_str(template, **kw))
 
-
-
 class Post(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
 
+    def render(self):
+        self._render_text = self.content.replace('\n', '<br>')
+        return render_str("post.html",p = self)
+
 class BlogFront(Handler):
-    def render_front(self, subject="", content="", error=""):
-        posts = db.GqlQuery("SELECT * FROM Post ORDER BY created DESC LIMIT 5")
-        self.render("frontpage.html", subject=subject, content=content, error=error, posts=posts )
 
     def get(self):
-         self.render_front()
+        posts = db.GqlQuery("SELECT * FROM Post ORDER BY created DESC LIMIT 5")
+        self.render('frontpage.html', posts = posts)
+
+    # def render_front(self, subject="", content="", error=""):
+    #     posts = db.GqlQuery("SELECT * FROM Post ORDER BY created DESC LIMIT 5")
+    #     self.render("frontpage.html", subject=subject, content=content, error=error, posts=posts )
+    #
+    # def get(self):
+    #      self.render_front()
 
 class NewPost(Handler):
     def render_new(self, subject="", content="", error=""):
@@ -49,7 +56,7 @@ class NewPost(Handler):
             a = Post(subject = subject, content = content)
             a.put()
 
-            self.redirect("/blog")
+            self.redirect('/blog/%s' % str(a.key().id()))
         else:
             error = "we need both a subject and some content!"
             self.render_new(subject, content, error)
@@ -63,16 +70,6 @@ class ViewPostHandler(Handler):
         else:
             error = "No post at this id."
             self.response.write(error)
-
-
-        # if Post.get_by_id(int(id)) == None:
-        #     error = "No post associated with id."
-        #     self.response.write(error)
-        # else:
-        #     post = Post.get_by_id(int(id))
-        #     self.render("permalink.html", post = post)
-            # self.response.write(blog_id.subject)
-            # self.response.write(blog_id.content)
 
 
 app = webapp2.WSGIApplication([
