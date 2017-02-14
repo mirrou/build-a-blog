@@ -55,7 +55,7 @@ class NewPost(Handler):
             self.render_new(subject, content, error)
 
 
-class ViewPostHandler(webapp2.RequestHandler):
+class ViewPostHandler(Handler):
     def get(self, id):
         post = Post.get_by_id(int(id))
         if post:
@@ -76,6 +76,7 @@ class ViewPostHandler(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
+
     ('/', BlogFront),
     ('/blog', BlogFront),
     ('/newpost', NewPost),

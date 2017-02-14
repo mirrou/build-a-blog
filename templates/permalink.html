@@ -2,6 +2,10 @@
 
 {% block content %}
 
-  {{post.render()}}
+<div class="content">
+  <div class="content-subject">{{post.subject}}</div>
+  <div class="content-body">{{post.post}}</div>
+
+</div>
 
 {% endblock %}
