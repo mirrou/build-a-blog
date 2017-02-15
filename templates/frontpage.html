@@ -6,10 +6,16 @@
   <div class="content">
 
     <div class="content-subject">
-      <a href='/blog/{{content.key().id()}}'>{{content.subject}}</a>
+      <a href='/blog/{{content.key().id()}}'class="content-subject">
+        {{content.subject}}
+      </a>
     </div>
 
-    <div class="content-body">{{content.content}}</div>
+    <div class="content-body">
+      <p class ="content-body">
+        {{content.content}}
+      </p>
+    </div>
 
   </div>
 {% endfor %}

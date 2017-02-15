@@ -34,13 +34,6 @@ class BlogFront(Handler):
         posts = db.GqlQuery("SELECT * FROM Post ORDER BY created DESC LIMIT 5")
         self.render('frontpage.html', posts = posts)
 
-    # def render_front(self, subject="", content="", error=""):
-    #     posts = db.GqlQuery("SELECT * FROM Post ORDER BY created DESC LIMIT 5")
-    #     self.render("frontpage.html", subject=subject, content=content, error=error, posts=posts )
-    #
-    # def get(self):
-    #      self.render_front()
-
 class NewPost(Handler):
     def render_new(self, subject="", content="", error=""):
         self.render("new-post.html", subject=subject, content=content, error=error)
@@ -60,7 +53,6 @@ class NewPost(Handler):
         else:
             error = "we need both a subject and some content!"
             self.render_new(subject, content, error)
-
 
 class ViewPostHandler(Handler):
     def get(self, id):
